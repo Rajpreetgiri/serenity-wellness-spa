@@ -4,26 +4,30 @@ import { motion } from "framer-motion";
 import { journeySteps } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function JourneySection() {
   return (
     <section className="section-padding relative overflow-hidden bg-gradient-to-br from-spa-text to-[#2d3f35]">
-      {/* Decorative blobs */}
+
+      {/* Blobs */}
       <motion.div
-        animate={{ scale: [1, 1.15, 1], rotate: [0, 10, 0] }}
+        animate={{ scale: [1, 1.12, 1], rotate: [0, 8, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-16 -right-16 sm:-top-20 sm:-right-20 w-48 h-48 sm:w-80 sm:h-80 lg:w-[30rem] lg:h-[30rem]
-                   rounded-[60%_40%_30%_70%/60%_30%_70%_40%] bg-spa-accent/10 blur-3xl pointer-events-none"
+        className="absolute -top-20 -right-20 w-64 sm:w-96 h-64 sm:h-96 rounded-full
+                   bg-spa-accent/8 blur-3xl pointer-events-none"
       />
       <motion.div
-        animate={{ scale: [1, 1.1, 1], rotate: [0, -8, 0] }}
+        animate={{ scale: [1, 1.08, 1], rotate: [0, -6, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-        className="absolute -bottom-16 -left-16 sm:-bottom-20 sm:-left-20 w-40 h-40 sm:w-64 sm:h-64 lg:w-96 lg:h-96
-                   rounded-[40%_60%_70%_30%/40%_50%_60%_50%] bg-peach-200/10 blur-3xl pointer-events-none"
+        className="absolute -bottom-20 -left-20 w-56 sm:w-80 h-56 sm:h-80 rounded-full
+                   bg-peach-200/8 blur-3xl pointer-events-none"
       />
 
       <div className="container-spa relative z-10">
-        <ScrollReveal className="text-center mb-10 sm:mb-14 lg:mb-16">
+
+        {/* Header */}
+        <ScrollReveal className="text-center mb-12 sm:mb-16 lg:mb-20">
           <p
             className="text-spa-green text-[10px] sm:text-xs tracking-[0.3em] uppercase font-medium mb-3 sm:mb-4 font-body"
             style={{ fontFamily: "var(--font-satisfy)" }}
@@ -32,81 +36,88 @@ export default function JourneySection() {
           </p>
           <h2
             className="text-white leading-tight mb-4 sm:mb-5"
-            style={{
-              fontFamily: "var(--font-cormorant)",
-              fontSize: "clamp(2rem, 5vw, 4rem)",
-            }}
+            style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(2rem, 5vw, 4rem)" }}
           >
             The Serenity
             <br />
             <em className="italic text-spa-green">Experience</em>
           </h2>
-          <p className="font-body text-white/60 text-sm sm:text-base max-w-xs sm:max-w-lg mx-auto leading-relaxed">
-            From arrival to departure, every moment at Serenity is orchestrated to return you to peace.
+          <p className="font-body text-white/55 text-sm sm:text-base max-w-xs sm:max-w-md mx-auto leading-relaxed">
+            From the moment you arrive to the moment you leave, every detail is orchestrated for your peace.
           </p>
         </ScrollReveal>
 
-        {/* Steps — 1 col → 2 col → 4 col */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mb-12 sm:mb-16">
-          {journeySteps.map((step, i) => (
-            <ScrollReveal key={step.step} delay={i * 0.12}>
-              <motion.div
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="relative group h-full"
-              >
-                <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-7 h-full
-                                hover:bg-white/[0.08] hover:border-spa-accent/30 transition-all duration-500">
-                  {/* Step number + icon */}
-                  <div className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-5">
-                    <span
-                      className="font-heading text-white/10 leading-none"
-                      style={{
-                        fontFamily: "var(--font-cormorant)",
-                        fontSize: "clamp(2.5rem, 5vw, 3rem)",
-                      }}
-                    >
-                      {step.step}
-                    </span>
-                    <span className="text-2xl sm:text-3xl">{step.icon}</span>
+        {/* ── Steps ── */}
+        <div className="relative mb-14 sm:mb-18">
+
+          {/* Connector line — desktop only */}
+          <div className="hidden lg:block absolute top-[2.75rem] left-[12.5%] right-[12.5%] h-px
+                          bg-gradient-to-r from-transparent via-spa-accent/30 to-transparent" />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {journeySteps.map((step, i) => (
+              <ScrollReveal key={step.step} delay={i * 0.1}>
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  transition={{ type: "spring", stiffness: 280 }}
+                  className="group relative flex flex-col items-center lg:items-start text-center lg:text-left"
+                >
+                  {/* Icon circle + number */}
+                  <div className="relative mb-5 sm:mb-6">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/6 border border-white/10
+                                    group-hover:bg-spa-accent/15 group-hover:border-spa-accent/30
+                                    flex items-center justify-center transition-all duration-500">
+                      <span className="text-2xl sm:text-3xl">{step.icon}</span>
+                    </div>
+                    {/* Step number badge */}
+                    <div className="absolute -top-2 -right-2 w-5 h-5 bg-spa-accent rounded-full
+                                    flex items-center justify-center">
+                      <span className="font-body text-[9px] text-white font-semibold">{i + 1}</span>
+                    </div>
                   </div>
 
+                  {/* Text */}
                   <h3
-                    className="text-white mb-2.5 sm:mb-3"
-                    style={{
-                      fontFamily: "var(--font-cormorant)",
-                      fontSize: "clamp(1.1rem, 2.5vw, 1.3rem)",
-                    }}
+                    className="text-white mb-2 sm:mb-3"
+                    style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)" }}
                   >
                     {step.title}
                   </h3>
-                  <p className="font-body text-xs sm:text-sm text-white/55 leading-relaxed">
+                  <p className="font-body text-xs sm:text-sm text-white/50 leading-relaxed max-w-[220px] lg:max-w-none mx-auto lg:mx-0">
                     {step.description}
                   </p>
 
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="absolute bottom-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-spa-accent/50 to-transparent"
-                  />
-                </div>
-              </motion.div>
-            </ScrollReveal>
-          ))}
+                  {/* Arrow between steps — desktop only */}
+                  {i < journeySteps.length - 1 && (
+                    <div className="hidden lg:block absolute top-7 -right-4 xl:-right-6 text-spa-accent/30">
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  )}
+                </motion.div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
 
-        {/* CTA */}
-        <ScrollReveal className="text-center">
+        {/* ── Bottom CTA ── */}
+        <ScrollReveal className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="inline-block">
             <Link
               href="/booking"
-              className="inline-block bg-white text-spa-text font-body font-medium
-                         px-8 sm:px-10 py-3.5 sm:py-4 rounded-2xl hover:bg-spa-green hover:text-white
-                         transition-all duration-300 shadow-green text-sm sm:text-base tracking-wide"
+              className="inline-flex items-center gap-2 bg-white text-spa-text font-body font-medium
+                         px-8 sm:px-10 py-3.5 sm:py-4 rounded-2xl hover:bg-spa-accent hover:text-white
+                         transition-all duration-300 shadow-green text-sm sm:text-base tracking-wide group"
             >
               Begin Your Journey
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
+          <Link
+            href="/about"
+            className="font-body text-white/60 text-sm hover:text-white transition-colors underline underline-offset-4"
+          >
+            Meet our therapists
+          </Link>
         </ScrollReveal>
       </div>
     </section>
