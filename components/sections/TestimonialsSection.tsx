@@ -14,7 +14,7 @@ export default function TestimonialsSection() {
     const interval = setInterval(() => {
       setDirection(1);
       setActive((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+    }, 5500);
     return () => clearInterval(interval);
   }, []);
 
@@ -29,26 +29,19 @@ export default function TestimonialsSection() {
   };
 
   const variants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 60 : -60,
-      opacity: 0,
-    }),
+    enter: (dir: number) => ({ x: dir > 0 ? 50 : -50, opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -60 : 60,
-      opacity: 0,
-    }),
+    exit: (dir: number) => ({ x: dir > 0 ? -50 : 50, opacity: 0 }),
   };
 
   return (
     <section className="section-padding bg-spa-bg relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-mint-100 via-spa-bg to-peach-100/30" />
 
       <div className="container-spa relative z-10">
-        <ScrollReveal className="text-center mb-16">
+        <ScrollReveal className="text-center mb-10 sm:mb-14 lg:mb-16">
           <p
-            className="font-body text-spa-accent text-xs tracking-[0.3em] uppercase font-medium mb-4"
+            className="font-body text-spa-accent text-[10px] sm:text-xs tracking-[0.3em] uppercase font-medium mb-3 sm:mb-4"
             style={{ fontFamily: "var(--font-satisfy)" }}
           >
             kind words
@@ -57,7 +50,7 @@ export default function TestimonialsSection() {
             className="font-heading text-spa-text"
             style={{
               fontFamily: "var(--font-cormorant)",
-              fontSize: "clamp(2.5rem, 5vw, 4rem)",
+              fontSize: "clamp(2rem, 5vw, 4rem)",
             }}
           >
             What Our Guests Say
@@ -65,8 +58,9 @@ export default function TestimonialsSection() {
         </ScrollReveal>
 
         {/* Main testimonial */}
-        <div className="max-w-3xl mx-auto mb-12">
-          <div className="relative min-h-[280px] flex items-center justify-center">
+        <div className="max-w-3xl mx-auto mb-8 sm:mb-12">
+          {/* Fixed-height container that expands on smaller screens */}
+          <div className="relative min-h-[300px] sm:min-h-[280px] flex items-center justify-center">
             <AnimatePresence custom={direction} mode="wait">
               <motion.div
                 key={active}
@@ -75,30 +69,35 @@ export default function TestimonialsSection() {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                transition={{ duration: 0.38, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
-                <div className="bg-white/70 backdrop-blur-sm border border-mint-200/40 rounded-4xl p-10 shadow-soft text-center h-full flex flex-col justify-center">
-                  <Quote className="w-8 h-8 text-spa-green/40 mx-auto mb-6" />
+                <div className="bg-white/70 backdrop-blur-sm border border-mint-200/40 rounded-3xl sm:rounded-4xl
+                                p-6 sm:p-8 lg:p-10 shadow-soft text-center h-full flex flex-col justify-center">
+                  <Quote className="w-6 h-6 sm:w-8 sm:h-8 text-spa-green/40 mx-auto mb-4 sm:mb-6" />
 
                   {/* Stars */}
-                  <div className="flex justify-center gap-1 mb-6">
+                  <div className="flex justify-center gap-1 mb-4 sm:mb-6">
                     {Array.from({ length: testimonials[active].rating }).map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                      <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-amber-400" />
                     ))}
                   </div>
 
                   <p
-                    className="font-heading text-spa-text text-xl md:text-2xl leading-relaxed mb-8 italic"
-                    style={{ fontFamily: "var(--font-cormorant)" }}
+                    className="font-heading text-spa-text leading-relaxed mb-6 sm:mb-8 italic"
+                    style={{
+                      fontFamily: "var(--font-cormorant)",
+                      fontSize: "clamp(1rem, 2.5vw, 1.4rem)",
+                    }}
                   >
                     &ldquo;{testimonials[active].text}&rdquo;
                   </p>
 
                   {/* Author */}
-                  <div className="flex items-center justify-center gap-4">
+                  <div className="flex items-center justify-center gap-3 sm:gap-4">
                     <div
-                      className="w-11 h-11 rounded-full flex items-center justify-center text-white font-heading text-lg font-medium"
+                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center
+                                 text-white font-heading text-base sm:text-lg font-medium flex-shrink-0"
                       style={{ backgroundColor: testimonials[active].color }}
                     >
                       {testimonials[active].avatar}
@@ -118,28 +117,26 @@ export default function TestimonialsSection() {
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => paginate(-1)}
-              className="w-10 h-10 rounded-xl bg-white border border-mint-200 flex items-center justify-center shadow-soft-sm hover:shadow-soft transition-all"
+              aria-label="Previous testimonial"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white border border-mint-200
+                         flex items-center justify-center shadow-soft-sm hover:shadow-soft transition-all"
             >
               <ChevronLeft className="w-4 h-4 text-spa-text" />
             </motion.button>
 
-            <div className="flex gap-2">
+            <div className="flex gap-1.5 sm:gap-2">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => {
-                    setDirection(i > active ? 1 : -1);
-                    setActive(i);
-                  }}
+                  onClick={() => { setDirection(i > active ? 1 : -1); setActive(i); }}
+                  aria-label={`Go to testimonial ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === active
-                      ? "w-8 bg-spa-accent"
-                      : "w-1.5 bg-mint-300 hover:bg-spa-green"
+                    i === active ? "w-7 sm:w-8 bg-spa-accent" : "w-1.5 bg-mint-300 hover:bg-spa-green"
                   }`}
                 />
               ))}
@@ -149,42 +146,41 @@ export default function TestimonialsSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => paginate(1)}
-              className="w-10 h-10 rounded-xl bg-white border border-mint-200 flex items-center justify-center shadow-soft-sm hover:shadow-soft transition-all"
+              aria-label="Next testimonial"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white border border-mint-200
+                         flex items-center justify-center shadow-soft-sm hover:shadow-soft transition-all"
             >
               <ChevronRight className="w-4 h-4 text-spa-text" />
             </motion.button>
           </div>
         </div>
 
-        {/* Mini cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-8">
+        {/* Mini cards — 2 → 3 → 5 cols */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
           {testimonials.map((t, i) => (
             <ScrollReveal key={t.id} delay={i * 0.05}>
               <motion.button
-                onClick={() => {
-                  setDirection(i > active ? 1 : -1);
-                  setActive(i);
-                }}
+                onClick={() => { setDirection(i > active ? 1 : -1); setActive(i); }}
                 whileHover={{ y: -3 }}
-                className={`w-full text-left p-4 rounded-2xl border transition-all duration-300 ${
+                className={`w-full text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl border transition-all duration-300 ${
                   i === active
                     ? "bg-white border-spa-accent/40 shadow-soft"
                     : "bg-white/40 border-mint-200/40 hover:bg-white/70"
                 }`}
               >
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                   <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-semibold"
+                    className="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-white text-[10px] sm:text-xs font-semibold flex-shrink-0"
                     style={{ backgroundColor: t.color }}
                   >
                     {t.avatar}
                   </div>
-                  <span className="font-body text-xs font-medium text-spa-text truncate">
+                  <span className="font-body text-[10px] sm:text-xs font-medium text-spa-text truncate">
                     {t.name}
                   </span>
                 </div>
-                <p className="font-body text-[10px] text-spa-muted line-clamp-2 leading-relaxed">
-                  {t.text.slice(0, 60)}...
+                <p className="font-body text-[9px] sm:text-[10px] text-spa-muted line-clamp-2 leading-relaxed">
+                  {t.text.slice(0, 55)}...
                 </p>
               </motion.button>
             </ScrollReveal>

@@ -14,9 +14,7 @@ const schema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Please enter a valid email"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
     confirm: z.string(),
   })
   .refine((d) => d.password === d.confirm, {
@@ -32,22 +30,17 @@ export default function SignupPage() {
   const [showPass, setShowPass] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+  });
 
   const password = watch("password", "");
-
   const passwordStrength = {
     hasLength: password.length >= 8,
     hasUpper: /[A-Z]/.test(password),
     hasLower: /[a-z]/.test(password),
     hasNumber: /\d/.test(password),
   };
-
   const strength = Object.values(passwordStrength).filter(Boolean).length;
 
   const onSubmit = async (data: FormValues) => {
@@ -60,7 +53,8 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-spa-bg via-mint-50 to-peach-100/20 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-spa-bg via-mint-50 to-peach-100/20
+                      flex items-center justify-center px-4">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -70,49 +64,40 @@ export default function SignupPage() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-            className="w-24 h-24 bg-spa-accent rounded-full flex items-center justify-center mx-auto mb-6 shadow-green"
+            className="w-20 h-20 sm:w-24 sm:h-24 bg-spa-accent rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 shadow-green"
           >
-            <Check className="w-12 h-12 text-white" strokeWidth={2} />
+            <Check className="w-10 h-10 sm:w-12 sm:h-12 text-white" strokeWidth={2} />
           </motion.div>
-          {/* Ripple */}
-          {[1, 2, 3].map((i) => (
-            <motion.div
-              key={i}
-              className="absolute w-24 h-24 rounded-full border border-spa-accent/30"
-              style={{ top: "50%", left: "50%", x: "-50%", y: "-50%" }}
-              animate={{ scale: [1, 3], opacity: [0.5, 0] }}
-              transition={{ duration: 1.5, delay: i * 0.3, repeat: Infinity }}
-            />
-          ))}
           <h2
-            className="font-heading text-spa-text text-4xl mb-3"
-            style={{ fontFamily: "var(--font-cormorant)" }}
+            className="font-heading text-spa-text mb-3"
+            style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(1.8rem, 5vw, 2.5rem)" }}
           >
             Welcome to Serenity
           </h2>
-          <p className="font-body text-spa-muted">Taking you to your dashboard...</p>
+          <p className="font-body text-spa-muted text-sm">Taking you to your dashboard...</p>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-spa-bg via-mint-50 to-peach-100/20 flex items-center justify-center px-4 py-20">
+    <div className="min-h-screen bg-gradient-to-br from-spa-bg via-mint-50 to-peach-100/20
+                    flex items-center justify-center px-4 py-16 sm:py-20">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="w-full max-w-md"
+        className="w-full max-w-[420px]"
       >
-        <div className="bg-white/70 backdrop-blur-xl border border-mint-200/40 rounded-4xl shadow-soft-lg p-10">
-          {/* Header */}
-          <div className="text-center mb-10">
-            <Link href="/" className="inline-flex items-center gap-2 mb-8">
-              <div className="w-10 h-10 bg-spa-accent rounded-2xl flex items-center justify-center shadow-green">
-                <Leaf className="w-5 h-5 text-white" strokeWidth={1.5} />
+        <div className="bg-white/70 backdrop-blur-xl border border-mint-200/40 rounded-3xl sm:rounded-4xl
+                        shadow-soft-lg p-6 sm:p-8 lg:p-10">
+          <div className="text-center mb-7 sm:mb-10">
+            <Link href="/" className="inline-flex items-center gap-2 mb-6 sm:mb-8">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-spa-accent rounded-xl sm:rounded-2xl flex items-center justify-center shadow-green">
+                <Leaf className="w-4 h-4 sm:w-5 sm:h-5 text-white" strokeWidth={1.5} />
               </div>
               <span
-                className="font-heading text-xl text-spa-text"
+                className="font-heading text-lg sm:text-xl text-spa-text"
                 style={{ fontFamily: "var(--font-cormorant)" }}
               >
                 Serenity
@@ -120,52 +105,40 @@ export default function SignupPage() {
             </Link>
             <h1
               className="font-heading text-spa-text mb-2"
-              style={{ fontFamily: "var(--font-cormorant)", fontSize: "2.2rem" }}
+              style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(1.6rem, 5vw, 2.2rem)" }}
             >
               Begin your journey
             </h1>
-            <p className="font-body text-sm text-spa-muted">
-              Create your wellness account
-            </p>
+            <p className="font-body text-xs sm:text-sm text-spa-muted">Create your wellness account</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
             <div>
-              <label className="font-body text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-2">
+              <label className="font-body text-[10px] sm:text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-1.5 sm:mb-2">
                 Full name
               </label>
-              <input
-                {...register("name")}
-                type="text"
-                placeholder="Alexandra Chen"
-                className="input-soft"
-              />
+              <input {...register("name")} type="text" placeholder="Alexandra Chen" className="input-soft" />
               {errors.name && (
-                <p className="font-body text-xs text-red-500 mt-1.5 flex items-center gap-1">
+                <p className="font-body text-[10px] sm:text-xs text-red-500 mt-1.5 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.name.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="font-body text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-2">
+              <label className="font-body text-[10px] sm:text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-1.5 sm:mb-2">
                 Email
               </label>
-              <input
-                {...register("email")}
-                type="email"
-                placeholder="you@example.com"
-                className="input-soft"
-              />
+              <input {...register("email")} type="email" placeholder="you@example.com" className="input-soft" />
               {errors.email && (
-                <p className="font-body text-xs text-red-500 mt-1.5 flex items-center gap-1">
+                <p className="font-body text-[10px] sm:text-xs text-red-500 mt-1.5 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.email.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="font-body text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-2">
+              <label className="font-body text-[10px] sm:text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-1.5 sm:mb-2">
                 Password
               </label>
               <div className="relative">
@@ -183,71 +156,66 @@ export default function SignupPage() {
                   {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+
               {password && (
-                <div className="mt-2 space-y-1.5">
+                <div className="mt-2 space-y-2">
+                  {/* Strength bar */}
                   <div className="flex gap-1">
                     {[1, 2, 3, 4].map((i) => (
                       <div
                         key={i}
                         className={`h-1 flex-1 rounded-full transition-all duration-300 ${
                           i <= strength
-                            ? strength <= 1
-                              ? "bg-red-400"
-                              : strength <= 2
-                              ? "bg-amber-400"
-                              : strength <= 3
-                              ? "bg-spa-green"
+                            ? strength <= 1 ? "bg-red-400"
+                              : strength <= 2 ? "bg-amber-400"
+                              : strength <= 3 ? "bg-spa-green"
                               : "bg-spa-accent"
                             : "bg-mint-200"
                         }`}
                       />
                     ))}
                   </div>
-                  <div className="grid grid-cols-2 gap-1">
+                  {/* Criteria */}
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                     {Object.entries({
                       "8+ characters": passwordStrength.hasLength,
-                      Uppercase: passwordStrength.hasUpper,
-                      Lowercase: passwordStrength.hasLower,
-                      Number: passwordStrength.hasNumber,
+                      "Uppercase": passwordStrength.hasUpper,
+                      "Lowercase": passwordStrength.hasLower,
+                      "Number": passwordStrength.hasNumber,
                     }).map(([label, met]) => (
                       <div
                         key={label}
-                        className={`flex items-center gap-1.5 font-body text-[10px] transition-colors ${
-                          met ? "text-spa-accent" : "text-spa-muted/60"
+                        className={`flex items-center gap-1 font-body transition-colors ${
+                          met ? "text-spa-accent" : "text-spa-muted/50"
                         }`}
                       >
                         <div
-                          className={`w-3 h-3 rounded-full border flex items-center justify-center transition-all ${
+                          className={`w-3 h-3 rounded-full border flex items-center justify-center flex-shrink-0 transition-all ${
                             met ? "bg-spa-accent border-spa-accent" : "border-mint-300"
                           }`}
                         >
                           {met && <Check className="w-2 h-2 text-white" strokeWidth={3} />}
                         </div>
-                        {label}
+                        <span className="text-[9px] sm:text-[10px]">{label}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
               {errors.password && (
-                <p className="font-body text-xs text-red-500 mt-1.5 flex items-center gap-1">
+                <p className="font-body text-[10px] sm:text-xs text-red-500 mt-1.5 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.password.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="font-body text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-2">
+              <label className="font-body text-[10px] sm:text-xs font-medium text-spa-text/70 tracking-wide uppercase block mb-1.5 sm:mb-2">
                 Confirm password
               </label>
-              <input
-                {...register("confirm")}
-                type="password"
-                placeholder="••••••••"
-                className="input-soft"
-              />
+              <input {...register("confirm")} type="password" placeholder="••••••••" className="input-soft" />
               {errors.confirm && (
-                <p className="font-body text-xs text-red-500 mt-1.5 flex items-center gap-1">
+                <p className="font-body text-[10px] sm:text-xs text-red-500 mt-1.5 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" /> {errors.confirm.message}
                 </p>
               )}
@@ -258,7 +226,7 @@ export default function SignupPage() {
               disabled={isSubmitting}
               whileHover={{ scale: isSubmitting ? 1 : 1.01 }}
               whileTap={{ scale: isSubmitting ? 1 : 0.99 }}
-              className="w-full btn-primary justify-center flex items-center gap-2 py-3.5 mt-2"
+              className="w-full btn-primary flex items-center justify-center gap-2 !py-3.5 mt-1"
             >
               {isSubmitting ? (
                 <>
@@ -269,24 +237,22 @@ export default function SignupPage() {
                   />
                   Creating account...
                 </>
-              ) : (
-                "Create account"
-              )}
+              ) : "Create account"}
             </motion.button>
           </form>
 
-          <div className="relative my-7">
+          <div className="relative my-5 sm:my-7">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-mint-200" />
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-white/70 px-3 font-body text-xs text-spa-muted">
+              <span className="bg-white/70 px-3 font-body text-[10px] sm:text-xs text-spa-muted">
                 Already have an account?
               </span>
             </div>
           </div>
 
-          <Link href="/login" className="w-full btn-secondary text-center block">
+          <Link href="/login" className="w-full btn-secondary text-center block !py-3">
             Sign in
           </Link>
         </div>
