@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/massage/**)",
+      "Bash(npm --version)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

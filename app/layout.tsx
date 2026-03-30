@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import AmbientAudio from "@/components/ui/AmbientAudio";
-import CursorGlow from "@/components/ui/CursorGlow";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://serenitywellness.com.au"),
@@ -131,11 +127,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <CursorGlow />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <AmbientAudio />
+        {children}
       </body>
     </html>
   );
